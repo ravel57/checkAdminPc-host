@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestComputer {
-    public String lastLoggedUser;
-    public String key;
+    private String lastLoggedUser;
+    private String key;
 }

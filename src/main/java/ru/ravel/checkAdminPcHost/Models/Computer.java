@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Computer {
-    public String computerName;
-    public String lastLoggedUser;
-    public LocalDateTime lastLogTime;
+    private String computerName;
+    private String lastLoggedUser;
+    private LocalDateTime lastLogTime;
 }
