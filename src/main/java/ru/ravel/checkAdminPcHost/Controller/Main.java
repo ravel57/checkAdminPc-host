@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/API/v1")
 public class Main {
 
-    List<Computer> computers = new ArrayList<Computer>();
+    List<Computer> computers = new ArrayList<>();
     private String key = "123";
 
     @GetMapping("/{computerName}")

@@ -17,11 +17,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
-        http.antMatcher("/**").authorizeRequests()
-                .antMatchers("/", "/login**", "/js/**", "/css/**", "/error**").permitAll()
+        http.antMatcher("/").authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .anyRequest().permitAll()
-                .and().logout().logoutSuccessUrl("/").permitAll()
-                .and().formLogin().loginPage("/")
                 .and().csrf().disable();
     }
 }
