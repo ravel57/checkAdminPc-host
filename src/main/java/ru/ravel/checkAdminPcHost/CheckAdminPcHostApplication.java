@@ -20,6 +20,17 @@ public class CheckAdminPcHostApplication {
 		ApplicationContext applicationContext = SpringApplication.run(CheckAdminPcHostApplication.class, args);
 	}
 
+
+	private Connector httpToHttpsRedirectConnector() {
+		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+		connector.setScheme("http");
+		connector.setPort(8080);
+		connector.setSecure(false);
+		connector.setRedirectPort(8443);
+		return connector;
+	}
+
+
 	@Bean
 	public ServletWebServerFactory servletContainer() {
 		// Enable SSL Trafic
@@ -34,18 +45,9 @@ public class CheckAdminPcHostApplication {
 				context.addConstraint(securityConstraint);
 			}
 		};
-//		// Add HTTP to HTTPS redirect
+		// Add HTTP to HTTPS redirect
 		tomcat.addAdditionalTomcatConnectors(httpToHttpsRedirectConnector());
 		return tomcat;
-	}
-
-	private Connector httpToHttpsRedirectConnector() {
-		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-		connector.setScheme("http");
-		connector.setPort(8080);
-		connector.setSecure(false);
-		connector.setRedirectPort(8443);
-		return connector;
 	}
 
 }

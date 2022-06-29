@@ -20,16 +20,14 @@ public class Main {
     private String key = System.getenv("key");
 
     @GetMapping("/{computerName}")
-    ResponseEntity<Object> getComputerName(
-            @PathVariable("computerName") String computerName,
-            @RequestParam("key") String key
-    ) {
+    public ResponseEntity<Object> getComputerName(@PathVariable String computerName,
+                                                  @RequestParam String key) {
         if (key.equals(this.key)) {
             Computer computer = computers.stream()
                     .filter(el -> el.getComputerName().equals(computerName))
-                    .findAny()
+                    .findFirst()
                     .orElse(null);
-            if (computer != null && ChronoUnit.SECONDS.between(computer.getLastLogTime(), LocalDateTime.now()) < 300)
+            if (computer != null && ChronoUnit.SECONDS.between(computer.getLastLogTime(), LocalDateTime.now()) < 60)
                 return ResponseEntity.status(HttpStatus.OK).body(computer.getLastLoggedUser());
             else
                 return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -39,23 +37,22 @@ public class Main {
     }
 
     @PostMapping("/{computerName}")
-    ResponseEntity<Object> postComputerName(@PathVariable("computerName") String computerName,
-                                            @RequestBody RequestComputer requestComputer) {
+    public ResponseEntity<Object> postComputerName(@PathVariable String computerName,
+                                                   @RequestBody RequestComputer requestComputer) {
         if (requestComputer.getKey().equals(this.key)) {
-
             Computer savedComputer = this.computers.stream()
                     .filter(el -> el.getComputerName().equals(computerName))
-                    .findAny()
+                    .findFirst()
                     .orElse(null);
             if (savedComputer != null) {
                 savedComputer.setLastLogTime(LocalDateTime.now());
                 savedComputer.setLastLoggedUser(requestComputer.getLastLoggedUser());
             } else {
                 Computer computer = Computer.builder()
-                    .computerName(computerName)
-                    .lastLoggedUser(requestComputer.getLastLoggedUser())
-                    .lastLogTime(LocalDateTime.now())
-                    .build();
+                        .computerName(computerName)
+                        .lastLoggedUser(requestComputer.getLastLoggedUser())
+                        .lastLogTime(LocalDateTime.now())
+                        .build();
                 computers.add(computer);
             }
             return ResponseEntity.status(HttpStatus.OK).body(null);

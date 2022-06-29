@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
@@ -21,6 +22,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return container -> {
             container.addErrorPages(new ErrorPage( HttpStatus.NOT_FOUND, "/"));
         };
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
 
 }
