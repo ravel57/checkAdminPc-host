@@ -12,10 +12,10 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+//    @Override
+//    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+//        configurer.enable();
+//    }
 
     @Bean
     public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerCustomizer(){
